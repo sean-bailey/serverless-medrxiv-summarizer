@@ -14,4 +14,40 @@ QuickStart:
    1) Focus on the vpc id and the profile.
 7) Run `terraform init` and then `terraform apply`
 8) Once done, `cd..` and modify `efsync.yaml` to match the outputs of both your model download script and the EFS / Subnets your Terraform used.
-9) 
+9) Next, run `efsync2 -cf efsync.yaml` and let the upload complete. This can take a few minutes.
+10) From the output of that last command, head into `/better-medrxiv-bot/bot-internals/medrxiv-summarizer/serverless.yml` and modify the security groups and subnet ids appropriately.
+11) Run `serverless deploy -c serverless.yml`, and let it finish.
+12) Head over to Lambda, find your function as named in your `serverless.yml`, and test it out! 
+
+Here is a good test event for Lambda:
+```
+{
+  "body": {
+    "url": "https://www.medrxiv.org/content/10.1101/2021.10.04.21264434v1"
+  }
+}
+```
+
+You may notice the first test takes upwards of 15 seconds to run, but subsequent tests can complete in less than 5 seconds. This is due to Lambda cold starting, and can be mitigated with reserved concurrency if you'd prefer. For this tutorial, I found it as an unnecessary expense.
+
+Head over to API Gateway next, and select the API related to your function. Head to the `POST`, and click the TEST lightning bolt.
+
+Try using this as your Request Body
+```
+{
+    "url": "https://www.medrxiv.org/content/10.1101/2021.10.04.21264434v1"
+}
+
+```
+
+You'll probably see that the first time may fail. Try running it again afterwards and it will work fine. API Gateway has a timeout of 29 seconds, so it will timeout before the cold-started lambda completes.
+
+
+Open up the `get_summarized_url.html` file in the `bot-internals` folder.
+change this line: 
+`const APIGatewayUrl="<your-api-gateway-url>"`
+to match your API Gateway URL endpoint, which is provided by the output from Serverless.
+
+Create an S3 static site, and use this file as your index. Visit it, and see your serverless Machine Learning Inference system in action!
+
+

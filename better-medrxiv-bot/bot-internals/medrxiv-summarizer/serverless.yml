@@ -37,8 +37,6 @@ provider:
   environment:
     MNT_DIR: ${self:custom.LocalMountPath}
     EFS_PIP_PATH: '${self:custom.LocalMountPath}${self:custom.efs_pip_path}'
-    DEFAULT_BUCKET: "better-medrxiv-summarizer-bucket"
-    DEFAULT_FILE: "sshleifer-distilbart-cnn-12-3.zip"
   iamManagedPolicies:
     - arn:aws:iam::aws:policy/AmazonElasticFileSystemClientReadWriteAccess
 
@@ -92,10 +90,11 @@ functions:
       arn: 'arn:aws:elasticfilesystem:${self:provider.region}:#{AWS::AccountId}:access-point/${self:custom.efsAccessPoint}'
     vpc:
       securityGroupIds:
-        - sg-3ae8ad41
+        - <any security group from VPC>
       subnetIds:
-        - subnet-085449701833de3a0
-        - subnet-0cac67c9595772976
+        - <Subnet from VPC>
+        - <subnet from vpc>
+        - ...
     events:
       - http:
           path: medrxiv-summarizer
