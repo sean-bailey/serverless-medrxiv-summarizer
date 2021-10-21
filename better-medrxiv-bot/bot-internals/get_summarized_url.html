@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+</style>
+    <script>
+    var count=20;
+var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+document.getElementById("timerDiv").style.display="none"
+
+// CHANGE THIS TO YOUR API GATEWAY URL
+const APIGatewayUrl="<your-api-gateway-url>"
+
+
+
+    function timer()
+{
+  count=count-1;
+  if (count < 0)
+  {
+     //clearInterval(counter);
+     count=20
+     document.getElementById("submitButton").disabled=false
+     document.getElementById("timerDiv").style.display="none"
+  }
+
+ document.getElementById("timerDiv").innerHTML=count + " "; // watch for spelling
+}
+
+
+    function summarizeUrl(){
+    count=20
+    document.getElementById("submitButton").disabled=true
+    document.getElementById("timerDiv").style.display="block"
+
+    var url = document.getElementById("urlInput").value
+    const response = new XMLHttpRequest();
+
+    const json=JSON.stringify({
+
+    "url": url
+  }
+    );
+
+    response.open("POST",APIGatewayUrl)
+    response.setRequestHeader('Content-Type','application/json');
+
+    response.send(json);
+    document.getElementById("titleDiv").innerHTML="Please wait. Process can take up to 20 seconds. This section will be replaced with the results once done. </br> If the timer counts down from 20 and you have no results, the button will be enabled and you can try again.</br>This is due to cold starts with Lambda, and the unecessary expense of provisioned concurrency.";
+    response.onload = (e) => {
+    const obj=JSON.parse(response.response);
+    document.getElementById("titleDiv").innerHTML="Title: " + obj.title;
+    document.getElementById("urlDiv").innerHTML="URL: "+obj.url;
+    document.getElementById("summaryDiv").innerHTML="Summary: "+obj.conclusion;
+    document.getElementById("submitButton").disabled=false
+}
+
+
+    }
+    </script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+MedArxiv URL to Summarize: <input type="text" id="urlInput" value="">
+
+<button onclick="summarizeUrl()" id="submitButton">Submit URL</button>
+
+
+<p> Enter in the MedArxiv url you would like to summarize, and click the button to generate the synthesis. </p>
+
+</br>
+
+<b></b><div id="timerDiv"></div></b>
+
+</br>
+</br>
+<b><div id="titleDiv"></div></b>
+</br>
+<div id="urlDiv"></div>
+</br>
+<div id="summaryDiv"></div>
+</body>
+</html>

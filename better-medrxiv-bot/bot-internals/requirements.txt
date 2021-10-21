@@ -1,0 +1,4 @@
+transformers
+requests
+bs4
+torch
