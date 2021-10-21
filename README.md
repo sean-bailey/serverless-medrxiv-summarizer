@@ -14,7 +14,7 @@ QuickStart:
    1) Focus on the vpc id and the profile.
 7) Run `terraform init` and then `terraform apply`
 8) Once done, `cd..` and modify `efsync.yaml` to match the outputs of both your model download script and the EFS / Subnets your Terraform used.
-9) Next, run `efsync2 -cf efsync.yaml` and let the upload complete. This can take a few minutes.
+9) Next, run `efsync2 -cf efsync.yaml` and let the upload complete. This can take a few minutes. [In the meantime, check out efsync2 for more info!](https://github.com/sean-bailey/efsync2)
 10) From the output of that last command, head into `/better-medrxiv-bot/bot-internals/medrxiv-summarizer/serverless.yml` and modify the security groups and subnet ids appropriately.
 11) Run `serverless deploy -c serverless.yml`, and let it finish.
 12) Head over to Lambda, find your function as named in your `serverless.yml`, and test it out! 
