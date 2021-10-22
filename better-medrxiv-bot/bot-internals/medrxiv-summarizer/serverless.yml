@@ -37,6 +37,7 @@ provider:
   environment:
     MNT_DIR: ${self:custom.LocalMountPath}
     EFS_PIP_PATH: '${self:custom.LocalMountPath}${self:custom.efs_pip_path}'
+    MAIN_DIR: "/mrm8488-roberta-med-small2roberta-med-small-finetuned-cnn_daily_mail-summarization/"
   iamManagedPolicies:
     - arn:aws:iam::aws:policy/AmazonElasticFileSystemClientReadWriteAccess
 

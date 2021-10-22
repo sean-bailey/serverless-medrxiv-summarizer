@@ -10,12 +10,14 @@ QuickStart:
 5) run `python3 savemodel.py downloadAndSaveModel --transformername <model from HuggingFace>`
    1) It will download and save the model and the tokenizer inside a directory named after the model.
    2) You will have `model` and `tokenizer` subdirectories inside of it.
+   3) I have found "mrm8488/roberta-med-small2roberta-med-small-finetuned-cnn_daily_mail-summarization" works well, speedwise, and is the default inside `serverless.yml`
 6) `cd` into `better-medrxiv-bot/bot-internals/terraform` and modify `main.tf` to meet your AWS requirements
    1) Focus on the vpc id and the profile.
 7) Run `terraform init` and then `terraform apply`
 8) Once done, `cd..` and modify `efsync.yaml` to match the outputs of both your model download script and the EFS / Subnets your Terraform used.
 9) Next, run `efsync2 -cf efsync.yaml` and let the upload complete. This can take a few minutes. [In the meantime, check out efsync2 for more info!](https://github.com/sean-bailey/efsync2)
 10) From the output of that last command, head into `/better-medrxiv-bot/bot-internals/medrxiv-summarizer/serverless.yml` and modify the security groups and subnet ids appropriately.
+    1) Make sure `MAIN_DIR` is set to the same base directory name of the model you downloaded in 5.
 11) Run `serverless deploy -c serverless.yml`, and let it finish.
 12) Head over to Lambda, find your function as named in your `serverless.yml`, and test it out! 
 

@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import boto3
-MAINDIR="/mrm8488-roberta-med-small2roberta-med-small-finetuned-cnn_daily_mail-summarization/"
+MAINDIR=os.environ['MAIN_DIR']
 BASEDIR=str(os.environ['MNT_DIR'])+MAINDIR
 TOKENIZERDIR=BASEDIR+"tokenizer"
 MODELDIR=BASEDIR+"model"
