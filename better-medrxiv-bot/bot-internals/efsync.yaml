@@ -6,7 +6,7 @@ clean_efs: all # Defines if the EFS should be cleaned up before. values: `'all'`
 # aws profile configuration
 aws_profile: serverless-lambda-deployment # aws iam profile with required permission configured in .aws/credentials
 aws_region: us-east-1 # the aws region where the efs is running
-file_dir: </your/full/working/directory/to>/mrm8488-roberta-med-small2roberta-med-small-finetuned-cnn_daily_mail-summarization
+file_dir: </your/full/working/directory/to>/mrm8488-roberta-med-small2roberta-med-small-finetuned-cnn_daily_mail-summarization/
 file_dir_on_ec2: mrm8488-roberta-med-small2roberta-med-small-finetuned-cnn_daily_mail-summarization
 
 # pip dependencies configurations

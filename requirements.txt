@@ -1,3 +1,4 @@
 fire
 transformers
 efsync2
+torch
